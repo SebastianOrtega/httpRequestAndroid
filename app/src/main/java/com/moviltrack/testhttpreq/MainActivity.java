@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-            httpReq(params);
+        httpReq(params);
 
 
 
@@ -55,19 +55,21 @@ public class MainActivity extends AppCompatActivity {
     private boolean httpReq(RequestParams params)  {
 
         AsyncHttpClient client = new AsyncHttpClient();
-        StringEntity entity = null ;
-
-
-
-
-
-
+        JSONObject json = new JSONObject();
         try {
-            entity = new StringEntity( APPLICATION_JSON ) ;
-        } catch ( UnsupportedEncodingException e ) {
-            e . printStackTrace () ;
+            json.put("app_key", "appKey");
+        } catch (JSONException e) {
+            Log.e("PRUEBA", e.getMessage());
         }
-        client.post(URL,params,new JsonHttpResponseHandler(){
+        StringEntity entity = new StringEntity(json.toString(), "UTF-8");
+
+
+        client.post(
+                this.getApplicationContext(),
+                URL,
+                entity,
+                "application/json",
+                new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess( statusCode, headers, response );
